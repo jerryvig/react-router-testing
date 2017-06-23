@@ -355,7 +355,7 @@ class SidebarExample extends Component {
               <li><Link to="/">Home</Link></li>
               <li><Link to="/bubblegum">Bubblegum</Link></li>
               <li><Link to="/shoelaces">Shoelaces</Link></li>
-              <li><Link to="/wontmatchanything">Won't match anything</Link></li>
+              <li><Link to="/wontmatchanything">Will not match anything</Link></li>
             </ul>
           
             <Switch>

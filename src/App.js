@@ -532,7 +532,7 @@ class Person extends Component {
 
     return (
       <div>
-        <h3>{person.name}'s friends</h3>
+        <h3>{person.name}’s friends</h3>
         <ul>
           {person.friends.map(id => (
               <li key={id}>

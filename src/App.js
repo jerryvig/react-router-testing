@@ -512,9 +512,62 @@ class AuthExample extends Component {
   }
 }
 
+const PEEPS = [
+  {id: 0, name: 'Denise', friends: [1, 2, 3]},
+  {id: 1, name: 'Ashley', friends: [2, 0]},
+  {id: 2, name: 'Elly', friends: [0, 1]},
+  {id: 3, name: 'Fluvia', friends: [0, 1]}
+];
+
+const find = (id) => PEEPS.find((p) => p.id == id)
+
+class Person extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {};
+  }
+
+  render() {
+    const person = find(this.props.match.params.id);
+
+    return (
+      <div>
+        <h3>{person.name}'s friends</h3>
+        <ul>
+          {person.friends.map(id => (
+              <li key={id}>
+                <Link to={`${this.props.match.url}/${id}`}>
+                  {find(id).name}
+                </Link>
+              </li>
+            )
+          )}
+        </ul>
+        <Route path={`${this.props.match.url}/:id`} component={Person}/>
+      </div>
+    )
+  }
+}
+
+class RecursiveExample extends Component {
+  constructor() {
+    super();
+    this.state = {};
+  }
+
+  render() {
+    return (
+      <Router>
+        <Person match={{ params: { id: 0 }, url: '' }}/>
+      </Router>
+    )
+  }
+}
+
 //export default App;
 //export default ParamsExample;
 //export default CustomLinkExample;
 //export default NoMatchExample;
 //export default SidebarExample;
-export default AuthExample;
+//export default AuthExample;
+export default RecursiveExample;

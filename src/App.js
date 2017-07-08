@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import CSSTransitionGroup from 'react-transition-group/CSSTransitionGroup';
 import {
   BrowserRouter as Router,
   Route,
@@ -516,7 +517,7 @@ const PEEPS = [
   {id: 0, name: 'Denise', friends: [1, 2, 3]},
   {id: 1, name: 'Ashley', friends: [2, 0]},
   {id: 2, name: 'Elly', friends: [0, 1]},
-  {id: 3, name: 'Fluvia', friends: [0, 1]}
+  {id: 3, name: 'Fluvia', friends: [0, 1]},
 ];
 
 const find = (id) => PEEPS.find((p) => p.id == id)
@@ -564,10 +565,123 @@ class RecursiveExample extends Component {
   }
 }
 
+const styles = {};
+
+styles.fill = {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    top: 0,
+    bottom: 0
+};
+
+styles.content = {
+    ...styles.fill,
+    top: '40px',
+    textAlign: 'center'
+};
+
+styles.nav = {
+    padding: 0,
+    margin: 0,
+    position: 'absolute',
+    top: 0,
+    height: '40px',
+    width: '100%',
+    display: 'flex'
+};
+
+styles.navItem = {
+    textAlign: 'center',
+    flex: 1,
+    listStyleType: 'none',
+    padding: '10px'
+};
+
+styles.hsl  = {
+    ...styles.fill,
+    color: 'white',
+    paddingTop: '20px',
+    fontSize: '30px'
+};
+
+class NavLink extends Component {
+  constructor() {
+    super();
+    this.state = {};
+  }
+
+  render() {
+    return (
+        <li style={styles.navItem}>
+          <Link {...this.props} style={{ color: 'inherit' }}/>
+        </li>
+    );
+  }
+}
+
+class HSL extends Component {
+  constructor() {
+    super();
+    this.state = {};
+  }
+
+  render() {
+    return (
+        <div style={{
+            ...styles.fill,
+            ...styles.hsl,
+            background: `hsl(${this.props.match.params.h}, ${this.props.match.params.s}%, ${this.props.match.params.l}%)`
+        }}>hsl({this.props.match.params.h}, {this.props.match.params.s}%, {this.props.match.params.l}%)</div>
+    );
+  }
+}
+
+class AnimationExample extends Component {
+  constructor() {
+    super();
+    this.state= {};
+  }
+
+  render() {
+    return (
+       <Router>
+         <Route render={({ location }) => (
+           <div style={styles.fill}>
+             <Route exact path="/" render={() => (
+                 <Redirect to="/10/90/50"/>
+             )}/>
+
+             <ul style={styles.nav}>
+               <NavLink to="/10/90/50">Red</NavLink>
+               <NavLink to="/120/100/40">Green</NavLink>
+               <NavLink to="/200/100/40">Blue</NavLink>
+               <NavLink to="/310/100/50">Pink</NavLink>
+             </ul>
+             <div style={styles.content}>
+               <CSSTransitionGroup
+                   transitionName="fade"
+                   transitionEnterTimeout={1000}
+                   transitionLeaveTimeout={1000}>
+                 <Route location={location}
+                      key={location.key}
+                      path="/:h/:s/:l"
+                      component={HSL}/>
+               </CSSTransitionGroup>
+             </div>
+           </div>
+           )}>
+         </Route>
+       </Router>
+    )
+  }
+}
+
 //export default App;
 //export default ParamsExample;
 //export default CustomLinkExample;
 //export default NoMatchExample;
 //export default SidebarExample;
 //export default AuthExample;
-export default RecursiveExample;
+export default AnimationExample;
+//export default RecursiveExample;
